@@ -1,0 +1,56 @@
+{
+  "name": "wip",
+  "version": "1.0.0",
+  "description": "na",
+  "license": "MIT",
+  "keywords": [
+    "pika pika"
+  ],
+  "main": "src/index.js",
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "1.2.17",
+    "@fortawesome/free-solid-svg-icons": "5.8.1",
+    "@fortawesome/react-fontawesome": "0.1.4",
+    "axios": "^0.19.0",
+    "connect": "^3.6.6",
+    "connect-mongodb-session": "^2.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^7.0.0",
+    "eslint-plugin-react": "^7.12.4",
+    "eslint-plugin-react-hooks": "^1.5.0",
+    "express": "^4.16.4",
+    "express-session": "^1.16.1",
+    "firebase-admin": "^7.3.0",
+    "firebase-tools": "^6.9.2",
+    "firestore-store": "^1.0.0",
+    "global": "^4.3.2",
+    "heroku": "^7.24.3",
+    "mongodb": "^3.2.3",
+    "nodemon": "^1.18.11",
+    "now": "^15.2.0",
+    "react": "16.8.3",
+    "react-dom": "16.8.3",
+    "react-helmet": "^5.2.1",
+    "react-router": "5.0.0",
+    "react-router-dom": "5.0.0",
+    "react-scripts": "2.1.8",
+    "styled-components": "^4.3.2"
+  },
+  "devDependencies": {
+    "typescript": "3.3.3"
+  },
+  "proxy": "http://localhost:5000",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "now-build": "react-scripts build"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

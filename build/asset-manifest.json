@@ -1,0 +1,19 @@
+{
+  "main.js": "/static/js/main.c63ac6ba.chunk.js",
+  "main.js.map": "/static/js/main.c63ac6ba.chunk.js.map",
+  "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
+  "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
+  "static/js/2.800a2d36.chunk.js": "/static/js/2.800a2d36.chunk.js",
+  "static/js/2.800a2d36.chunk.js.map": "/static/js/2.800a2d36.chunk.js.map",
+  "index.html": "/index.html",
+  "precache-manifest.61fa5575deb9584f58f8628ec81871f0.js": "/precache-manifest.61fa5575deb9584f58f8628ec81871f0.js",
+  "service-worker.js": "/service-worker.js",
+  "static/media/blacephalon.png": "/static/media/blacephalon.e529a948.png",
+  "static/media/ditto.png": "/static/media/ditto.188b29ee.png",
+  "static/media/magmortar.png": "/static/media/magmortar.ae193ddb.png",
+  "static/media/pikachu.png": "/static/media/pikachu.6f49fa9e.png",
+  "static/media/registeel.png": "/static/media/registeel.06d307c3.png",
+  "static/media/sylveon.png": "/static/media/sylveon.92c98a91.png",
+  "static/media/thundurus.png": "/static/media/thundurus.47815c40.png",
+  "static/media/tyranitar.png": "/static/media/tyranitar.26580df9.png"
+}
