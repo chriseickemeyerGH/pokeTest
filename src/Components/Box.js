@@ -1,7 +1,6 @@
-import React from "react";
 import styled from "styled-components";
 
-const DIV = styled.div`
+const Box = styled.div`
   background-color: ${props => props.bgColor};
   border-radius: ${props => props.borderRadius};
   justify-content: ${props => props.justifyContent};
@@ -22,5 +21,4 @@ const DIV = styled.div`
   box-sizing: border-box;
 `;
 
-const Box = ({ ...props }) => <DIV {...props} />;
 export default Box;

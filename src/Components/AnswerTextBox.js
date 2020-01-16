@@ -1,8 +1,7 @@
-import React from "react";
 import styled, { keyframes, css } from "styled-components";
 import TextInput from "./TextInput";
 
-const AnswerInput = styled(TextInput)`
+const AnswerTextBox = styled(TextInput)`
   animation: ${props =>
     props.startAnimation &&
     css`
@@ -37,5 +36,4 @@ const shake = keyframes`
      }
    `;
 
-const AnswerTextBox = ({ ...props }) => <AnswerInput {...props} />;
 export default AnswerTextBox;

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Box from "./Box";
 
 const BoxRecord = styled(Box)`
-  @media screen and (max-width: 900px) {
+  @media (max-width: 900px) {
     justify-content: center;
     margin-top: 50px;
     margin-bottom: 20px;

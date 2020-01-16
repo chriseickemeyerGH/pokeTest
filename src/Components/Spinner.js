@@ -1,5 +1,3 @@
-import React from "react";
-
 import styled, { keyframes } from "styled-components";
 
 const Spin = keyframes`
@@ -13,7 +11,7 @@ const Spin = keyframes`
   }
 `;
 
-const Loader = styled.div`
+const Spinner = styled.div`
   font-size: 10px;
   position: fixed;
   margin-top: -50px;
@@ -39,9 +37,5 @@ const Loader = styled.div`
     height: 100px;
   }
 `;
-
-const Spinner = () => {
-  return <Loader />;
-};
 
 export default Spinner;

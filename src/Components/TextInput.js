@@ -1,7 +1,6 @@
-import React from "react";
 import styled from "styled-components";
 
-const OO = styled.input`
+const TextInput = styled.input`
   border-radius: 10px;
   text-decoration: none;
   border: 1px solid lightgray;
@@ -11,5 +10,4 @@ const OO = styled.input`
   text-transform: uppercase;
 `;
 
-const TextInput = ({ ...props }) => <OO {...props} />;
 export default TextInput;
