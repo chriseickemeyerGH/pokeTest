@@ -4,8 +4,8 @@ self.__precacheManifest = [
     "url": "/static/media/magmortar.ae193ddb.png"
   },
   {
-    "revision": "fb1d1acc0c47e5de80cf",
-    "url": "/static/js/main.c63ac6ba.chunk.js"
+    "revision": "d4ce8e1d139662026cec",
+    "url": "/static/js/main.2f1caec7.chunk.js"
   },
   {
     "revision": "6f49fa9e1b3ca97108e11ef5ffbc64a8",
@@ -40,11 +40,11 @@ self.__precacheManifest = [
     "url": "/static/media/blacephalon.e529a948.png"
   },
   {
-    "revision": "25051c6dc631392f5191",
-    "url": "/static/js/2.800a2d36.chunk.js"
+    "revision": "a025925174fb508a0bc3",
+    "url": "/static/js/2.b726ee8e.chunk.js"
   },
   {
-    "revision": "68ea11a8fcc110e54185dcca5f4c50e0",
+    "revision": "52f4b3ddc527dfc57b460ba250f91047",
     "url": "/index.html"
   }
 ];

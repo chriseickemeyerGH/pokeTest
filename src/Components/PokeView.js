@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
-import RecordBox from "../Components/RecordBox";
-import Timer from "../Components/Timer";
-import Spinner from "../Components/Spinner";
-import DisplayAnswer from "../Components/DisplayAnswer";
-import AnswerForm from "../Components/AnswerForm";
-import axios from "axios";
-import ModeForm from "../Components/ModeForm";
-import Characteristics from "../Components/Characteristics";
+import RecordBox from "./RecordBox";
+import Timer from "./Timer";
+import Spinner from "./Spinner";
+import DisplayAnswer from "./DisplayAnswer";
+import AnswerForm from "./AnswerForm";
+
+import ModeForm from "./ModeForm";
+import Characteristics from "./Characteristics";
+import ScrollToTop from "./ScrollToTop";
+import firebase from "../firebase";
 
 function PokeView({ match }) {
+  const [auth, setAuth] = useState({ loggedIn: false, UID: "" });
   const [formText, setFormText] = useState("");
   const [wrongInput, setWrongInput] = useState(false);
   const [rightOrWrong, setRightOrWrong] = useState(false);
@@ -18,17 +21,7 @@ function PokeView({ match }) {
   const [gameState, setGameState] = useState("intro");
   const [isTicking, setTicking] = useState(false);
   const [count, setCount] = useState(30);
-  const [attrs, setAttrs] = useState({
-    name: "",
-    heightM: "",
-    weightKg: "",
-    heightIn: "",
-    heightFt: "",
-    type: [],
-    moves: [],
-    stats: [],
-    image: ""
-  });
+  const [attrs, setAttrs] = useState({});
   const [pokeId, setPokeId] = useState({ start: "", end: "" });
   const [correctAnswers, setCorrectAnswers] = useState(
     parseInt(localStorage.getItem("item"), 10) || 0
@@ -38,8 +31,13 @@ function PokeView({ match }) {
   );
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [gameState]);
+    firebase.auth().onAuthStateChanged(user => {
+      user
+        ? setAuth({ loggedIn: true, UID: user.uid })
+        : setAuth({ loggedIn: false, UID: "" });
+    });
+  }, []);
+
   useEffect(() => {
     if (isTicking) {
       const interval = setInterval(() => {
@@ -47,18 +45,10 @@ function PokeView({ match }) {
       }, 1000);
       const timeout = setTimeout(() => {
         setTicking(false);
-        axios.get("/timeout").then(res => {
-          setCount(30);
-          setAttrs({
-            ...attrs,
-            name: res.data.serverName,
-            image: res.data.serverImage
-          });
-          setGameState("answer");
-
-          setFormText("");
-          setTotalQuestions(totalQuestions => totalQuestions + 1);
-        });
+        setCount(30);
+        setGameState("answer");
+        setFormText("");
+        setTotalQuestions(totalQuestions => totalQuestions + 1);
       }, 30000);
       return () => {
         clearTimeout(timeout);
@@ -88,71 +78,86 @@ function PokeView({ match }) {
     }
   }, [pokeId, match.params]);
 
-  const startGame = e => {
-    setSpinner(true);
-    e.preventDefault();
-    axios
-      .post("/gamestart", {
-        startingId: pokeId.start,
-        endingId: pokeId.end
-      })
-      .then(res => {
-        let response = res.data;
-        setAttrs({
-          ...attrs,
-          heightIn: response.serverInHeight,
-          heightM: response.serverMeterHeight,
-          weightKg: response.serverKgWeight,
-          weightLb: response.serverLbWeight,
-          heightFt: response.serverFtHeight,
-          type: response.serverType,
-          stats: response.serverStats,
-          moves: response.serverMoves
-        });
-        setGameState("question");
-        setToggleMoveBox(false);
-        setRightOrWrong(false);
-        setTicking(true);
-        setSpinner(false);
-      })
-      .catch(err => {
-        console.log(err);
+  const queryData = async () => {
+    const user = firebase.auth().currentUser;
+    const userID = auth.loggedIn ? auth.UID : user.uid;
+    try {
+      const fn = firebase.functions().httpsCallable("pokemonQuery");
+      const res = await fn({
+        range: {
+          start: pokeId.start,
+          end: pokeId.end
+        }
       });
+      const docID = res.data.backendResult;
+      const cb = await firebase
+        .firestore()
+        .doc(`${userID}/${docID}`)
+        .get();
+      const { pokeData } = cb.data();
+      const {
+        name,
+        heightIn,
+        heightM,
+        weightKg,
+        weightLb,
+        heightFt,
+        image,
+        types,
+        moves,
+        stats
+      } = pokeData;
+      setAttrs({
+        heightM: heightM,
+        weightKg: weightKg,
+        weightLb: weightLb,
+        heightIn: heightIn,
+        heightFt: heightFt,
+        image: image,
+        name: name,
+        types: types,
+        moves: moves,
+        stats: stats
+      });
+      setGameState("question");
+      setTicking(true);
+      setSpinner(false);
+      toggleMoveBox && setToggleMoveBox(false);
+      rightOrWrong && setRightOrWrong(false);
+    } catch (err) {
+      alert(err);
+    }
+  };
+
+  const onSubmission = async e => {
+    e.preventDefault();
+    setSpinner(true);
+    try {
+      if (!auth.loggedIn) {
+        await firebase.auth().signInAnonymously();
+        queryData();
+      } else queryData();
+    } catch (err) {
+      alert(err);
+    }
   };
 
   function onSubmit(e) {
     e.preventDefault();
-    axios
-      .post("/answersubmit", {
-        guess: formText
-      })
-      .then(res => {
-        let response = res.data;
-        setFormText("");
-        const gameState = response.serverState;
-
-        if (gameState === "Correct") {
-          setAttrs({
-            ...attrs,
-            name: response.serverName,
-            image: response.serverImage
-          });
-          setGameState("answer");
-          setTicking(false);
-          setCount(30);
-          setRightOrWrong(true);
-          setCorrectAnswers(correctAnswers => correctAnswers + 1);
-          setTotalQuestions(totalQuestions => totalQuestions + 1);
-        } else if (gameState === "Incorrect") {
-          setWrongInput(true);
-          setTimeout(() => {
-            setWrongInput(false);
-          }, 1000);
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    if (formText === attrs.name) {
+      setGameState("answer");
+      setTicking(false);
+      setCount(30);
+      setRightOrWrong(true);
+      setCorrectAnswers(correctAnswers => correctAnswers + 1);
+      setTotalQuestions(totalQuestions => totalQuestions + 1);
+      setFormText("");
+    } else {
+      setWrongInput(true);
+      setTimeout(() => {
+        setWrongInput(false);
+      }, 1000);
+    }
   }
   function normalClick(e) {
     e.preventDefault();
@@ -166,23 +171,25 @@ function PokeView({ match }) {
 
   const displayDiffButtons = () => (
     <ModeForm
+      loading={spinner}
       normalClick={normalClick}
       hardClick={hardClick}
       normalMode={mode.normal}
       hardMode={mode.hard}
-      onStartGame={startGame}
+      onStartGame={onSubmission}
     />
   );
 
   const displayGameValues = () => (
     <>
+      <ScrollToTop someState={gameState} />
       <Characteristics
         heightFt={attrs.heightFt}
         heightIn={attrs.heightIn}
         heightM={attrs.heightM}
         weightLb={attrs.weightLb}
         weightKg={attrs.weightKg}
-        type={attrs.type}
+        types={attrs.types}
         moves={attrs.moves}
         onArrowClick={() => setToggleMoveBox(!toggleMoveBox)}
         toggleMoveBox={toggleMoveBox}
@@ -208,19 +215,19 @@ function PokeView({ match }) {
 
   const displayAnswer = () => (
     <DisplayAnswer
-      showAnswer={!!(gameState === "answer")}
       answerResult={rightOrWrong}
       name={attrs.name}
       image={attrs.image}
-      onRestart={startGame}
+      onRestart={onSubmission}
+      loading={spinner}
     />
   );
 
   return (
     <div>
-      {!!(gameState === "intro") && displayDiffButtons()}
-      {!!(gameState === "question") && displayGameValues()}
-      {!!(gameState === "answer") && displayAnswer()}
+      {gameState === "intro" && displayDiffButtons()}
+      {gameState === "question" && displayGameValues()}
+      {gameState === "answer" && displayAnswer()}
       {spinner && <Spinner />}
     </div>
   );

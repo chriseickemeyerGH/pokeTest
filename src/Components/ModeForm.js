@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Button from "./Button";
 import Box from "./Box";
+import boxShadow from "./BoxShadow";
 
 const OL = styled.ol`
   line-height: 26px;
@@ -17,7 +18,8 @@ const ModeForm = ({
   hardClick,
   normalMode,
   hardMode,
-  onStartGame
+  onStartGame,
+  loading
 }) => (
   <form>
     <Box
@@ -28,8 +30,8 @@ const ModeForm = ({
       maxWidth="700px"
       setMargin="20px auto 50px auto"
       borderRadius="10px"
-      justifyContent="center"
       bgColor="rgb(241, 238, 238)"
+      boxShadow={boxShadow}
     >
       <h1>Before you start...</h1>
 
@@ -64,6 +66,7 @@ const ModeForm = ({
       </P>
       <span>
         <Button
+          disabled={loading}
           onClick={normalClick}
           txtColor={normalMode ? "white" : "black"}
           bgColor={normalMode ? "green" : "lightgray"}
@@ -72,6 +75,7 @@ const ModeForm = ({
           Normal
         </Button>
         <Button
+          disabled={loading}
           onClick={hardClick}
           txtColor={hardMode ? "white" : "black"}
           bgColor={hardMode ? "green" : "lightgray"}
@@ -85,7 +89,7 @@ const ModeForm = ({
       <Button
         setWidth="260px"
         onClick={onStartGame}
-        disabled={!hardMode && !normalMode}
+        disabled={(!hardMode && !normalMode) || loading}
       >
         Start
       </Button>

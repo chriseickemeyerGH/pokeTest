@@ -6,13 +6,15 @@ import MovesList from "./MovesList";
 import MovesHeader from "./MovesHeader";
 import Box from "./Box";
 import Stats from "./Stats";
+import boxShadow from "./BoxShadow";
 
 const DataCard = styled(Box)`
   margin: 10px;
   width: 250px;
   background-color: rgb(241, 238, 238);
   border-radius: 10px;
-  min-height: 310px;
+  padding: 10px 25px;
+  box-shadow: ${boxShadow};
 `;
 
 const Characteristics = ({
@@ -21,7 +23,7 @@ const Characteristics = ({
   heightM,
   weightLb,
   weightKg,
-  type,
+  types,
   moves,
   onArrowClick,
   toggleMoveBox,
@@ -34,29 +36,28 @@ const Characteristics = ({
       flexFlow="row wrap"
       justifyContent="center"
       setMargin="20px 0 0 0"
+      alignItems="flex-start"
     >
       <DataCard>
-        <Box setPadding="5px 20px">
-          <h3>Characteristics</h3>
-          <HeightAndWeight
-            heightFt={heightFt}
-            heightIn={heightIn}
-            heightM={heightM}
-            weightLb={weightLb}
-            weightKg={weightKg}
-          />
-          <Type typeArray={type} />
-          <MovesHeader
-            moves={moves}
-            onArrowClick={onArrowClick}
-            toggleMoveBox={toggleMoveBox}
-            normalMode={normalMode}
-          />
-          <MovesList toggleMoveBox={toggleMoveBox} moves={moves} />
-        </Box>
+        <h3>Characteristics</h3>
+        <HeightAndWeight
+          heightFt={heightFt}
+          heightIn={heightIn}
+          heightM={heightM}
+          weightLb={weightLb}
+          weightKg={weightKg}
+        />
+        <Type typeArray={types} />
+        <MovesHeader
+          moves={moves}
+          onArrowClick={onArrowClick}
+          toggleMoveBox={toggleMoveBox}
+          normalMode={normalMode}
+        />
+        <MovesList toggleMoveBox={toggleMoveBox} moves={moves} />
       </DataCard>
 
-      <DataCard maxHeight="310px">
+      <DataCard>
         <Stats stats={stats} />
       </DataCard>
     </Box>

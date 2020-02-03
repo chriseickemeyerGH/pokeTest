@@ -6,6 +6,8 @@ import Box from "./Box";
 
 const Label = styled.label`
   font-size: 24px;
+  margin-bottom: 10px;
+  display: inline-block;
 `;
 const AnswerForm = ({ onSubmit, startAnimation, answerVal, onChange }) => (
   <Box

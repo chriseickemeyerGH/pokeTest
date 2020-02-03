@@ -18,6 +18,7 @@ const Box = styled.div`
   text-align: ${props => props.textAlign};
   line-height: ${props => props.lineHeight};
   overflow: ${props => props.setOverflow};
+  box-shadow: ${props => props.boxShadow};
   box-sizing: border-box;
 `;
 

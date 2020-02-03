@@ -1,4 +1,4 @@
-require("dotenv").config();
+/*require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
@@ -7,6 +7,9 @@ const session = require("express-session");
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+const { gameStart } = require(`${__dirname}/gameStart`);
+const { answerSubmit } = require(`${__dirname}/answerSubmit`);
+const { timeOut } = require(`${__dirname}/timeOut`);
 
 const admin = require("firebase-admin");
 const FirestoreStore = require("firestore-store")(session);
@@ -44,10 +47,6 @@ app.use(
   })
 );
 
-const { gameStart } = require(`${__dirname}/gameStart`);
-const { answerSubmit } = require(`${__dirname}/answerSubmit`);
-const { timeOut } = require(`${__dirname}/timeOut`);
-
 app.use(express.static(`${__dirname}/../build/index.html`));
 
 app.post("/gamestart", gameStart);
@@ -62,6 +61,5 @@ app.get("*", (req, res) => {
 /*
 const port = process.env.PORT;
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
-*/
-// **now deployment
-app.listen();
+ */
+// **now deployment app.listen();
