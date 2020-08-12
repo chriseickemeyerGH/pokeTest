@@ -1,2 +1,3 @@
-### Deployment 
-Having deployment issues with Zeit after revisiting project. May refactor https requests to firebase functions.
+
+### A Pokemon Guessing Game
+This is a game where users guess a Pokemon based on given traits and stats. Uses the PokeApi (https://pokeapi.co/).
